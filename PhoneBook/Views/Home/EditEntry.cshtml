@@ -1,0 +1,48 @@
+﻿@model PhoneBook.Models.EntryModel
+
+@{
+    ViewData["Title"] = "Edit Entry";
+}
+
+<h1>Edit Entry</h1>
+
+<h4>Entry Model</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditEntry">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style="display:none">
+                <label asp-for="id" class="control-label"></label>
+                <input asp-for="id" class="form-control" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="display:none">
+                <label asp-for="phonebookid" class="control-label"></label>
+                <input asp-for="phonebookid" class="form-control" />
+                <span asp-validation-for="phonebookid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="phonenumber" class="control-label"></label>
+                <input asp-for="phonenumber" class="form-control" />
+                <span asp-validation-for="phonenumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to Home</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

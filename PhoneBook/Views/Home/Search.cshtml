@@ -1,0 +1,70 @@
+﻿@model IEnumerable<PhoneBook.Models.ViewPhoneBookModel>
+
+@{
+    ViewData["Title"] = "Search Phonebook";
+}
+
+<h1>Search Phonebook</h1>
+
+
+<form asp-controller="Home" asp-action="Search">
+    <p>
+        Person/Number  : <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<p></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonebookname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonebookid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonenumber)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phonebookname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phonebookid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phonenumber)
+            </td>
+            <td>
+               
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) 
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

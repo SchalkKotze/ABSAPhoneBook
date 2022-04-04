@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PhoneBook.Models.PhoneBookModel>
+
+@{
+    ViewData["Title"] = "Maintain PhoneBooks";
+}
+
+<h1>Maintain PhoneBooks</h1>
+
+<p>
+    <a asp-action="AddPhoneBook">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonebookname)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.phonebookname)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditPhoneBook", new {  id=item.id  })                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
