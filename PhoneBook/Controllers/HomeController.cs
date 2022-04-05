@@ -33,33 +33,7 @@ namespace PhoneBook.Controllers
             return View();
         }
 
-        public  IActionResult Maintain()
-        {
-            List<PhoneBookModel> phonebookList = new List<PhoneBookModel>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response =  httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") +  "/api/PhoneBook/"))
-                {
-                    var apiResponse =  response.Result.Content.ReadAsStringAsync();
-                    phonebookList = JsonConvert.DeserializeObject<List<PhoneBookModel>>(apiResponse.Result);
-                }
-            }
-            return View(phonebookList);
-        }
-        public IActionResult MaintainEntry()
-        {
-            List<EntryModel> phonebookList = new List<EntryModel>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + "/api/Entries/"))
-                {
-                    var apiResponse = response.Result.Content.ReadAsStringAsync();
-                    phonebookList = JsonConvert.DeserializeObject<List<EntryModel>>(apiResponse.Result);
-                }
-            }
-            return View(phonebookList);
-        }
-
+       
         public IActionResult Search(string searchString)
         {
             List<ViewPhoneBookModel> viewPhonebookList = new List<ViewPhoneBookModel>();
@@ -75,106 +49,6 @@ namespace PhoneBook.Controllers
             return View(viewPhonebookList);
         }
 
-        public IActionResult AddPhoneBook(string phoneBookName)
-        {
-            using (var client = new HttpClient())
-            {
-                PhoneBookModel phonebookAdd = new PhoneBookModel();
-                phonebookAdd.phonebookname = phoneBookName;
-
-                var s = JsonConvert.SerializeObject(phonebookAdd);
-
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Route:BasePath"));
-
-                var postTask =  client.PostAsJsonAsync<PhoneBookModel>("/api/PhoneBook_Add/", phonebookAdd);
-                
-                postTask.Wait();
-
-            }
-
-            return View();
-        }
-
-        public IActionResult EditPhoneBook(int id ,string phoneBookName)
-        {
-            using (var client = new HttpClient())
-            {
-                PhoneBookModel phonebookEdit = new PhoneBookModel();
-
-                phonebookEdit.id = id;
-                phonebookEdit.phonebookname = phoneBookName;
-
-                var s = JsonConvert.SerializeObject(phonebookEdit);
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Route:BasePath"));
-                var postTask = client.PostAsJsonAsync<PhoneBookModel>("/api/PhoneBook_Edit/", phonebookEdit);
-                postTask.Wait();
-            }
-
-            PhoneBookModel phonebookEntry = new PhoneBookModel();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + $"/api/PhoneBook/{id}"))
-                {
-                    var apiResponse = response.Result.Content.ReadAsStringAsync();
-                    phonebookEntry = JsonConvert.DeserializeObject<PhoneBookModel>(apiResponse.Result);
-                }
-            }
-
-            return View(phonebookEntry);
-        }
-        public IActionResult EditEntry(int id, string name, string phonenumber, int phonebookid)
-        {
-            using (var client = new HttpClient())
-            {
-                EntryModel entryEdit = new EntryModel();
-
-                entryEdit.id = id;
-                entryEdit.name = name;
-                entryEdit.phonenumber = phonenumber;
-                entryEdit.phonebookid = phonebookid;
-
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Route:BasePath"));
-                var postTask = client.PostAsJsonAsync<EntryModel>("/api/Entries_Edit/", entryEdit);
-                postTask.Wait();
-            }
-
-            EntryModel entry = new EntryModel();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + $"/api/Entries/{id}"))
-                {
-                    var apiResponse = response.Result.Content.ReadAsStringAsync();
-                    entry = JsonConvert.DeserializeObject<EntryModel>(apiResponse.Result);
-                }
-            }
-
-            return View(entry);
-        }
-
-        public IActionResult AddEntry(int id, string name, string phonenumber, int phonebookid)
-        {
-            using (var client = new HttpClient())
-            {
-                EntryModel entryAdd = new EntryModel();
-
-                entryAdd.id = id;
-                entryAdd.name = name;
-                entryAdd.phonenumber = phonenumber;
-                entryAdd.phonebookid = phonebookid;
-
-                var s = JsonConvert.SerializeObject(entryAdd);
-
-                client.BaseAddress = new Uri(configuration.GetValue<string>("Route:BasePath"));
-
-                var postTask = client.PostAsJsonAsync<EntryModel>("/api/Entries_Add/", entryAdd);
-
-                postTask.Wait();
-
-            }
-
-            return View();
-
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
