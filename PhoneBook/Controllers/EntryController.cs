@@ -33,7 +33,22 @@ namespace PhoneBook.Controllers
             return View();
         }
 
-      
+
+        public JsonResult ReturnPhoneBookJSONDataToAJax()
+        {
+            List<PhoneBookModel> phonebookList = new List<PhoneBookModel>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + "/api/PhoneBook/"))
+                {
+                    var apiResponse = response.Result.Content.ReadAsStringAsync();
+                    phonebookList = JsonConvert.DeserializeObject<List<PhoneBookModel>>(apiResponse.Result);
+                }
+            }
+            var jsonData = phonebookList.ToList();                     
+            return Json(jsonData);
+        }
+
         public IActionResult MaintainEntry()
         {
             List<EntryModel> phonebookList = new List<EntryModel>();

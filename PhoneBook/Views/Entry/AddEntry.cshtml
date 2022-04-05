@@ -13,6 +13,12 @@
         <form asp-action="AddEntry">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="phonebookid" class="control-label"></label>
+                @Html.DropDownListFor(m=> m.phonebookid , new SelectList(Enumerable.Empty<SelectListItem>()))
+                <span asp-validation-for="phonebookid" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="name" class="control-label"></label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
@@ -35,4 +41,27 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "ReturnPhoneBookJSONDataToAJax",
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                datatype: JSON,
+                success: function (result) {
+                    console.log(result);
+                    result.forEach(function (item) {
+                        console.log("" + item.toString());
+                        $("#phonebookid").append('<option value="' + item.id + '">' + item.phonebookname + '</option>');
+                    });
+                },
+                error: function (data) { }
+            });
+        });
+    </script>
+
 }
+

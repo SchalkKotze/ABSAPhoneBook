@@ -42,6 +42,7 @@ namespace PhoneBook.Controllers
                 {
                     var apiResponse = response.Result.Content.ReadAsStringAsync();
                     phonebookList = JsonConvert.DeserializeObject<List<PhoneBookModel>>(apiResponse.Result);
+             
                 }
             }
             return View(phonebookList);
@@ -54,8 +55,6 @@ namespace PhoneBook.Controllers
             {
                 PhoneBookModel phonebookAdd = new PhoneBookModel();
                 phonebookAdd.phonebookname = phoneBookName;
-
-                var s = JsonConvert.SerializeObject(phonebookAdd);
 
                 client.BaseAddress = new Uri(configuration.GetValue<string>("Route:BasePath"));
 
