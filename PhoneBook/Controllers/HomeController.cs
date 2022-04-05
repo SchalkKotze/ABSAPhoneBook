@@ -61,18 +61,19 @@ namespace PhoneBook.Controllers
         }
 
         public IActionResult Search(string searchString)
-        {
-            List<ViewPhoneBookModel> viewPhonebookList = new List<ViewPhoneBookModel>();
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + $"/api/PhoneBookView/{searchString}"))
+        {          
+           List<ViewPhoneBookModel> viewPhonebookList = new List<ViewPhoneBookModel>();
+           using (var httpClient = new HttpClient())
                 {
-                    var apiResponse = response.Result.Content.ReadAsStringAsync();
-                    viewPhonebookList = JsonConvert.DeserializeObject<List<ViewPhoneBookModel>>(apiResponse.Result);
+                    using (var response = httpClient.GetAsync(configuration.GetValue<string>("Route:BasePath") + $"/api/PhoneBookView/{searchString}"))
+                    {
+                        var apiResponse = response.Result.Content.ReadAsStringAsync();
+                        viewPhonebookList = JsonConvert.DeserializeObject<List<ViewPhoneBookModel>>(apiResponse.Result);
+                    }
                 }
-            }
 
-            return View(viewPhonebookList);
+                return View(viewPhonebookList);
+           
         }
 
         public IActionResult AddPhoneBook(string phoneBookName)
